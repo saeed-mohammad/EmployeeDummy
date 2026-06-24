@@ -41,6 +41,8 @@ struct ContentView: View {
                       Text("\(employee.salary)")
                    }
                    .font(.title)
+                   .frame(maxWidth: .infinity, alignment: .leading)
+                   .contentShape(Rectangle())
                    .onTapGesture {
                       selectedEmployee = employee
                    }

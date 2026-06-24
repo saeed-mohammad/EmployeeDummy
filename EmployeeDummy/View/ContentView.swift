@@ -16,7 +16,14 @@ struct ContentView: View {
     var body: some View {
 
        NavigationStack {
-          if viewModel.employees.isEmpty {
+          if viewModel.isLoading {
+             
+             ProgressView("Loading Employees...")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .font(.title)
+             
+          }
+          else if viewModel.employees.isEmpty {
              
              ContentUnavailableView(
                "No Employees",
@@ -40,14 +47,14 @@ struct ContentView: View {
                 }
              }
              .navigationTitle("EmployeeDummy")
-             .task {
-                await viewModel.fetchEmployees()
-             }
              .navigationDestination(item: $selectedEmployee) { employee in
                 EmployeeDetailView(employee: employee)
              }
              
           }
+       }
+       .task {
+          await viewModel.fetchEmployees()
        }
     }
 }
